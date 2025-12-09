@@ -47,7 +47,7 @@ class HybridHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
         if self.path == '/':
             self.send_response(302)
-            self.send_header('Location', '/tab.html')
+            self.send_header('Location', '/index.html')
             self.end_headers()
         elif self.path.startswith('/random-media'):
             self.handle_random_media()

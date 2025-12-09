@@ -1,0 +1,232 @@
+/* --- Misc UI (Toast, Progress, Blur) --- */
+body.modal-active .app-container {
+  pointer-events: none;
+}
+
+body.drag-active .app-header .header-button,
+body.drag-active .search-input,
+body.drag-active .search-engine-selector,
+body.drag-active .search-button,
+body.drag-active .site-card:not(.sortable-chosen),
+body.drag-active .site-card .action-menu,
+body.drag-active .site-card .site-link,
+body.drag-active .site-card .site-link * {
+  pointer-events: none !important;
+}
+
+body.drag-active .app-header .header-item,
+body.drag-active .search-section,
+body.drag-active .pinned-sites-section,
+body.drag-active .drag-mode-controls,
+body.drag-active .drag-mode-controls *,
+body.drag-active .toast,
+body.drag-active .toast *,
+body.drag-active .sites-grid,
+body.drag-active .site-card.sortable-chosen,
+body.drag-active #quoteBox {
+  pointer-events: auto !important;
+}
+
+body.edit-mode-active .site-card:hover .site-actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+body.drag-mode-sortable-active .site-card:hover .site-icon,
+body.drag-active .site-card:hover .site-icon,
+body.resizing-grid .site-card:hover .site-icon {
+  transform: none;
+  box-shadow: 0 5px 15px var(--color-shadow);
+}
+
+body.drag-mode-sortable-active .site-card:hover .site-actions {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.toast {
+  position: fixed;
+  bottom: var(--spacing-xl);
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--color-surface-bright);
+  color: var(--color-text-on-surface);
+  padding: var(--spacing-sm) var(--spacing-xl);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 10px 25px var(--color-shadow);
+  z-index: 2000;
+  opacity: 0;
+  transition: all var(--transition-medium);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: var(--font-size-md);
+  pointer-events: none;
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* Blur styles */
+.blur-enabled .action-button.site-menu-button,
+.blur-enabled .header-button,
+.blur-enabled .dropdown-menu,
+.blur-enabled .search-box,
+.blur-enabled .search-engine-dropdown,
+.blur-enabled #suggestionsContainer,
+.blur-enabled .site-icon,
+.blur-enabled .action-menu,
+.blur-enabled .modal-content,
+.blur-enabled .toast,
+.blur-enabled .drag-mode-button,
+.blur-enabled #progressModal .progress-modal-content,
+.blur-enabled .pinned-sites-section,
+.blur-enabled .quote-content-wrapper,
+.blur-enabled .side-panel {
+  backdrop-filter: blur(var(--ui-blur-amount)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--ui-blur-amount)) saturate(180%);
+  background-color: var(--color-surface-bright-blurred);
+  border: 1px solid var(--border-blurred);
+}
+
+/* Specific Override for Side Panel */
+.blur-enabled .side-panel {
+  background-color: var(--color-side-panel-blurred);
+  border-left: 1px solid var(--border-blurred);
+}
+
+.blur-enabled .pinned-sites-section {
+  background-color: var(--color-surface-dim-blurred);
+}
+
+.blur-enabled .suggestion-item.selected {
+  background: var(--color-selected-blurred);
+}
+
+.blur-enabled .pinned-sites-section.grid-transparent {
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.blur-enabled .close-modal-button,
+.blur-enabled .action-button.site-menu-button {
+  background-color: transparent;
+  border: none;
+}
+
+.blur-enabled .action-button.site-menu-button:hover,
+.blur-enabled .search-engine-strip .search-engine-option:hover {
+  background: var(--color-surface-hover-blurred);
+}
+
+
+.blur-enabled .search-engine-selector:hover,
+.blur-enabled .app-item:hover,
+.blur-enabled .dropdown-item:hover,
+.blur-enabled .search-button:hover,
+.blur-enabled .search-engine-option:hover,
+.blur-enabled .action-item:hover,
+.blur-enabled .close-modal-button:hover,
+.blur-enabled .close-panel-button:hover,
+.blur-enabled .button-tertiary:hover,
+.blur-enabled .suggestion-item:hover {
+  background-color: var(--color-surface-hover-blurred);
+}
+
+
+/* Suggestion History/Delete styles */
+.suggestion-item i {
+  width: 16px;
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+.history-item {
+  font-weight: 500;
+}
+.history-item i.fa-link,
+.suggestion-item.link-suggestion i.fa-link {
+  color: var(--color-primary);
+}
+.suggestion-item.link-suggestion .suggestion-text {
+  color: var(--color-primary);
+}
+.suggestion-text {
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.delete-history-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  font-size: 1.4rem;
+  line-height: 1;
+  padding: 0 var(--spacing-sm);
+  border-radius: 50%;
+  opacity: 0.5;
+  transition: var(--transition-fast);
+  margin-left: auto;
+}
+.suggestion-item:hover .delete-history-btn {
+  opacity: 1;
+}
+.delete-history-btn:hover {
+  color: var(--color-danger);
+}
+.suggestion-separator {
+  border: none;
+  height: 1px;
+  background-color: var(--color-border);
+  margin: var(--spacing-xs) 0;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .sites-grid {
+    gap: var(--spacing-md);
+  }
+  .site-icon {
+    width: 50px;
+    height: 50px;
+  }
+  .search-box {
+    padding: var(--spacing-sm) var(--spacing-md);
+    height: 46px;
+  }
+  .drag-mode-controls {
+    gap: var(--spacing-sm);
+    bottom: var(--spacing-md);
+    right: var(--spacing-md);
+  }
+  body.side-panel-active .drag-mode-controls {
+    right: calc(var(--side-panel-width) + var(--spacing-md));
+  }
+  .drag-mode-button {
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sites-grid {
+    gap: var(--spacing-sm);
+  }
+  .site-icon {
+    width: 48px;
+    height: 48px;
+  }
+  .site-name {
+    font-size: 0.75rem;
+  }
+  .search-box {
+    padding: var(--spacing-sm) var(--spacing-xs);
+    height: 44px;
+  }
+}

@@ -1,0 +1,241 @@
+/* --- Header & Dropdowns --- */
+.app-header {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--spacing-md);
+  z-index: 100;
+  gap: var(--spacing-sm);
+}
+
+.header-item {
+  position: relative;
+  transition: transform var(--transition-fast);
+  z-index: 100;
+  width: fit-content;
+  height: fit-content;
+}
+
+.header-button {
+  background: var(--color-surface-bright);
+  color: var(--color-text-on-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-medium);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background: var(--color-surface-bright);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm);
+  width: 180px;
+  box-shadow: 0 10px 25px var(--color-shadow);
+  display: none;
+  z-index: 1500;
+  border: 1px solid var(--color-border);
+  pointer-events: auto;
+}
+
+.dropdown-menu.active {
+  display: block;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  will-change: transform, background; 
+  transition: 
+    transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), 
+    background 0.3s ease-in-out;
+  margin-bottom: var(--spacing-xs);
+  font-size: var(--font-size-md);
+  color: var(--color-text-on-surface);
+}
+
+.dropdown-item:last-child {
+  margin-bottom: 0;
+}
+
+.dropdown-item:hover {
+  background: var(--color-surface-hover);
+  transform: scale(1.05);
+}
+
+.dropdown-item i {
+  margin-right: var(--spacing-sm);
+  width: 20px;
+  text-align: center;
+  color: var(--color-text-on-surface);
+}
+
+.dropdown-item .toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+  margin-left: auto;
+}
+
+.dropdown-item .toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.dropdown-item .toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-secondary);
+  transition: var(--transition-medium);
+  border-radius: var(--radius-xl);
+}
+
+.dropdown-item .toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: var(--transition-medium);
+  border-radius: 50%;
+}
+
+.dropdown-item input:checked + .toggle-slider {
+  background-color: var(--color-primary);
+}
+
+.dropdown-item input:checked + .toggle-slider:before {
+  transform: translateX(16px);
+}
+
+/* --- Google Apps Dropdown --- */
+.google-apps-dropdown {
+  width: 320px;
+  height: auto;
+  max-height: 400px;
+  padding: var(--spacing-md);
+  overflow-y: auto;
+  transition: opacity var(--transition-slow), background-color var(--transition-medium), backdrop-filter var(--transition-medium);
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-secondary) transparent;
+}
+
+.apps-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+  height: 100%;
+  width: 100%;
+  gap: var(--spacing-sm);
+}
+
+.app-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--color-text-on-surface);
+  transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), 
+    background 0.3s ease-in-out;
+}
+
+.apps-grid--is-dragging .app-item {
+  transition: none;
+}
+
+.app-item:hover {
+  background: var(--color-surface-hover);
+  transform: scale(1.1);
+}
+
+.apps-grid--is-dragging .app-item:hover {
+  background: none;
+  transform: none;
+}
+
+.apps-grid .sortable-ghost {
+  opacity: 0.4;
+}
+
+.apps-grid:not(.sortable-chosen):hover {
+  z-index: 0;
+}
+
+.apps-grid .sortable-chosen {
+  cursor: grabbing !important;
+  transform: scale(1.08);
+  box-shadow: none;
+}
+
+.apps-grid .sortable-drag {
+  opacity: 1 !important;
+}
+
+.app-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--spacing-xs);
+}
+
+.app-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.app-label {
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.google-apps-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.google-apps-dropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.google-apps-dropdown::-webkit-scrollbar-track-piece:start {
+  margin-top: 10px;
+}
+
+.google-apps-dropdown::-webkit-scrollbar-track-piece:end {
+  margin-bottom: 10px;
+}
+
+.google-apps-dropdown::-webkit-scrollbar-thumb {
+  background: var(--color-secondary);
+  border-radius: 10px;
+}
+
+.google-apps-dropdown::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}

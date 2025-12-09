@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Tab</title>
+    <link rel="icon" type="image/png" href="tab.png" />
+    <!-- FontAwesome CSS -->
+    <link rel="stylesheet" href="./src/fontawesome-7.0.1-web/css/all.min.css" />
+    <!-- Component CSS -->
+    <link rel="stylesheet" href="./src/css/global.css" />
+    <link rel="stylesheet" href="./src/css/header.css" />
+    <link rel="stylesheet" href="./src/css/search.css" />
+    <link rel="stylesheet" href="./src/css/pinned-sites.css" />
+    <link rel="stylesheet" href="./src/css/quote-box.css" />
+    <link rel="stylesheet" href="./src/css/modals.css" />
+    <link rel="stylesheet" href="./src/css/side-panel.css" />
+    <link rel="stylesheet" href="./src/css/drag-resize.css" />
+    <link rel="stylesheet" href="./src/css/misc.css" />
+</head>
+
+<body data-theme="dark">
+        <div class="background-container">
+            <img class="background-media" id="randomBackground" src="" alt="Random background" />
+            <video class="background-media" id="randomBackgroundVideo" autoplay muted loop playsinline></video>
+        </div>
+    <div class="app-container">
+        <header class="app-header">
+            <div id="googleAppsButtonContainer" class="header-item">
+                <button class="icon-button header-button google-apps-button" id="googleAppsBtn" title="Google Apps">
+                    <i class="fas fa-grip"></i>   
+          </button>
+          <div class=" dropdown-menu google-apps-dropdown" id="googleAppsDropdown">
+                        <div class="apps-grid"></div>
+            </div>
+    </div>
+    <div id="themeButtonContainer" class="header-item">
+        <button class="icon-button header-button" id="themeBtn" title="Select theme"><i class="fas fa-moon"></i></button>
+        <div class="dropdown-menu" id="themeDropdown">
+            <div class="dropdown-item" data-theme-preference="dark"><i class="fas fa-moon"></i> Dark</div>
+            <div class="dropdown-item" data-theme-preference="light"><i class="fas fa-sun"></i> Light</div>
+            <div class="dropdown-item" data-theme-preference="system"><i class="fas fa-desktop"></i> System</div>
+            <div class="dropdown-item">
+                <span>Transparent Grid</span>
+                <label class="toggle-switch"><input type="checkbox" id="toggleTransparentGrid" /><span class="toggle-slider"></span></label>
+            </div>
+            <div class="dropdown-item">
+                <span>Enable Blur</span>
+                <label class="toggle-switch"><input type="checkbox" id="toggleBlur" /><span class="toggle-slider"></span></label>
+            </div>
+        </div>
+    </div>
+    <div id="settingsButtonContainer" class="header-item">
+        <button class="icon-button header-button" id="settingsBtn" title="Settings"><i class="fas fa-cog"></i></button>
+        <div class="dropdown-menu" id="settingsDropdown">
+            <div class="dropdown-item">
+                <span>Hide Pinned Sites</span>
+                <label class="toggle-switch"><input type="checkbox" id="togglePinnedSites" /><span class="toggle-slider"></span></label>
+            </div>
+            <div class="dropdown-item">
+                <span>Hide Search Bar</span>
+                <label class="toggle-switch"><input type="checkbox" id="toggleSearchBar" /><span class="toggle-slider"></span></label>
+            </div>
+            <div class="dropdown-item">
+                <span>Show Quote</span>
+                <label class="toggle-switch"><input type="checkbox" id="toggleQuoteBox" /><span class="toggle-slider"></span></label>
+            </div>
+            <div class="dropdown-item">
+                <span>Edit Sites</span>
+                <label class="toggle-switch"><input type="checkbox" id="toggleEditSites" /><span class="toggle-slider"></span></label>
+            </div>
+            <div class="dropdown-item" id="fixIconsBtn"><i class="fas fa-wand-magic-sparkles"></i> Fix Icons</div>
+            <div class="dropdown-item" id="openCustomizePanel"><i class="fas fa-brush"></i> Customize</div>
+        </div>
+    </div>
+    </header>
+    <!-- Main content area where draggable elements reside -->
+    <main class="main-content">
+        <section class="search-section" id="searchWrapper">
+            <div class="search-container" id="searchContainer">
+                <div class="search-box" id="searchBox">
+                    <button class="search-engine-selector" id="engineSelector" aria-label="Select search engine">
+                        <div class="search-logo-wrapper" id="searchLogoWrapper">
+                            <div class="loading-ring"></div>
+                            <div class="search-logo" id="currentEngine"></div>
+                        </div>
+                    </button>
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search the web..." autocomplete="off" />
+                    <div class="focus-glow"></div>
+                    <button class="icon-button search-button" id="searchBtn" aria-label="Perform search"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </section>
+        <section class="pinned-sites-section resizable-element" id="pinnedSites">
+            <div class="sites-grid" id="sitesGrid"></div>
+            <div class="resize-handle" data-direction="n"></div>
+            <div class="resize-handle" data-direction="ne"></div>
+            <div class="resize-handle" data-direction="e"></div>
+            <div class="resize-handle" data-direction="se"></div>
+            <div class="resize-handle" data-direction="s"></div>
+            <div class="resize-handle" data-direction="sw"></div>
+            <div class="resize-handle" data-direction="w"></div>
+            <div class="resize-handle" data-direction="nw"></div>
+        </section>
+        <div id="quoteBox" class="resizable-element">
+            <div class="quote-content-wrapper">
+                <span id="quoteText"></span>
+            </div>
+            <div class="resize-handle" data-direction="n"></div>
+            <div class="resize-handle" data-direction="ne"></div>
+            <div class="resize-handle" data-direction="e"></div>
+            <div class="resize-handle" data-direction="se"></div>
+            <div class="resize-handle" data-direction="s"></div>
+            <div class="resize-handle" data-direction="sw"></div>
+            <div class="resize-handle" data-direction="w"></div>
+            <div class="resize-handle" data-direction="nw"></div>
+        </div>
+    </main>
+    </div>
+    <!-- Pop-up Elements (Suggestions, Modals, etc.) -->
+    <div id="suggestionsContainer"></div>
+    <div class="search-engine-dropdown" id="engineDropdown"></div>
+    <!-- Add/Edit Site Modal -->
+    <div class="modal" id="siteModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Add New Site</h3>
+                <button class="icon-button close-modal-button" id="closeModal" aria-label="Close modal">×</button>
+            </div>
+            <div class="form-group">
+                <label for="siteName"><i class="fas fa-tag"></i> Site Name</label>
+                <input type="text" class="form-input" id="siteName" placeholder="Enter site name" aria-required="true" autocomplete="off" />
+            </div>
+            <div class="form-group">
+                <label for="siteUrl"><i class="fas fa-link"></i> Site URL</label>
+                <input type="url" class="form-input" id="siteUrl" placeholder="https://example.com" aria-required="true" autocomplete="off" />
+            </div>
+            <div class="modal-actions">
+                <button class="button button-danger" id="deleteBtn" style="display: none"><i class="fas fa-trash"></i> Delete</button>
+                <button class="button button-secondary" id="cancelBtn"><i class="fas fa-times"></i> Cancel</button>
+                <button class="button button-primary" id="saveBtn"><i class="fas fa-save"></i> Save</button>
+            </div>
+        </div>
+    </div>
+    <!-- All Sites Modal (for grid overflow) -->
+    <div class="modal" id="allSitesModal" role="dialog" aria-modal="true" aria-labelledby="allSitesModalTitle">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="allSitesModalTitle">All Pinned Sites</h3>
+                <button class="icon-button close-modal-button" id="closeAllSitesModal" aria-label="Close modal">×</button>
+            </div>
+            <div id="allSitesGrid"></div>
+        </div>
+    </div>
+    <!-- Icon Fetcher Progress Modal -->
+    <div class="modal" id="progressModal">
+        <div class="progress-modal-content">
+            <h4>Fixing Icons...</h4>
+            <div class="progress-circle" id="progressCircle">
+                <span class="progress-text" id="progressText">0%</span>
+            </div>
+            <p>Finding the best quality icons for your sites.</p>
+            <button class="button button-secondary" id="cancelFixIconsBtn">Cancel</button>
+        </div>
+    </div>
+    <!-- Customization Side Panel -->
+    <aside class="side-panel" id="customizeSidePanel" aria-label="Customize Appearance Panel">
+        <div class="resize-handle" id="resizeHandle"></div>
+        <div class="side-panel-header">
+            <h3 class="side-panel-title">Customize Appearance</h3>
+            <button class="icon-button close-panel-button" id="closeCustomizePanel" aria-label="Close customization panel">×</button>
+        </div>
+        <div class="side-panel-body">
+            <section class="customize-section">
+                <h4><i class="fas fa-shapes"></i> Icon Shape</h4>
+                <div class="customize-option-group">
+                    <div class="radio-group">
+                        <label class="radio-item"><input type="radio" name="siteShape" value="circle" id="shapeCircle" checked />Circle</label>
+                        <label class="radio-item"><input type="radio" name="siteShape" value="square" id="shapeSquare" />Square</label>
+                        <label class="radio-item"><input type="radio" name="siteShape" value="rounded-square" id="shapeRoundedSquare" />Rounded</label>
+                        <label class="radio-item"><input type="radio" name="siteShape" value="pebble" id="shapePebble" />Pebble</label>
+                        <label class="radio-item"><input type="radio" name="siteShape" value="squircle" id="shapeSquircle" />Squircle</label>
+                        <button class="button button-tertiary" id="enterResizeGridModeBtn">Resize Grid</button>
+                    </div>
+                </div>
+            </section>
+            <section class="customize-section">
+                <h4><i class="fas fa-wand-magic-sparkles"></i> Blur Effect</h4>
+                <div class="customize-option-group blur-customize-group">
+                    <label for="blurValueInput">Blur:</label>
+                    <input type="number" id="blurValueInput" class="form-input blur-input" min="0" max="50" placeholder="px" />
+                    <button class="button button-tertiary" id="resetBlurBtn">Default</button>
+                </div>
+            </section>
+            <section class="customize-section">
+                <h4><i class="fas fa-search"></i> Search Bar</h4>
+                <div class="customize-option-group">
+                    <label for="searchRadius">Corner Radius:</label>
+                    <div class="slider-group">
+                        <input type="range" id="searchRadius" min="0" max="50" step="1" /><span class="slider-value" id="searchRadiusValue"></span>
+                    </div>
+                </div>
+                <div class="customize-option-group">
+                    <label for="searchHeight">Thickness (Height):</label>
+                    <div class="slider-group">
+                        <input type="range" id="searchHeight" min="50" max="80" step="1" /><span class="slider-value" id="searchHeightValue"></span>
+                    </div>
+                </div>
+                <div class="customize-option-group">
+                    <label for="searchWidth">Length (Width):</label>
+                    <div class="slider-group">
+                        <input type="range" id="searchWidth" min="400" max="1000" step="10" /><span class="slider-value" id="searchWidthValue"></span>
+                    </div>
+                </div>
+            </section>
+            <section class="customize-section position-section">
+                <h4><i class="fas fa-arrows-alt"></i> Position Controls</h4>
+                <div class="customize-option-group">
+                    <button class="button button-tertiary" id="enterDragModeBtn">Drag Mode</button>
+                    <button class="button button-tertiary button-danger" id="resetAllPositionsBtn">Reset All</button>
+                </div>
+            </section>
+            <section class="customize-section">
+                <h4><i class="fas fa-database"></i> Data Management</h4>
+                <div class="customize-option-group" id="dataManagementControls">
+                    <button class="button button-secondary" id="importSettingsBtn"><i class="fas fa-download"></i> Import</button>
+                    <button class="button button-secondary" id="exportSettingsBtn"><i class="fas fa-upload"></i> Export</button>
+                    <button class="button button-danger" id="hardResetBtn"><i class="fas fa-exclamation-triangle"></i> Hard Reset</button>
+                </div>
+            </section>
+        </div>
+    </aside>
+    <!-- Floating Action Buttons for Drag/Resize Mode -->
+    <div class="drag-mode-controls" style="display: none">
+        <button class="icon-button drag-mode-button button-cancel" id="cancelDragBtn" title="Cancel Changes"><i class="fas fa-times"></i></button>
+        <button class="icon-button drag-mode-button button-confirm" id="confirmDragBtn" title="Confirm Changes"><i class="fas fa-check"></i></button>
+    </div>
+    <!-- Toast Notification Area -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <!-- External Libraries -->
+    <script src="./src/Sortable.min.js"></script>
+    <script src="./src/typed.js@2.0.12"></script>
+    <script src="./src/quotes.js"></script>
+    <!-- App Logic -->
+    <script src="./src/js/utils.js"></script>
+    <script src="./src/js/config.js"></script>
+    <script src="./src/js/dom.js"></script>
+    <script src="./src/js/app.js"></script>
+    <script src="./src/js/background.js"></script>
+    <script src="./src/js/theme.js"></script>
+    <script src="./src/js/ui.js"></script>
+    <script src="./src/js/search.js"></script>
+    <script src="./src/js/sites.js"></script>
+    <script src="./src/js/modals.js"></script>
+    <script src="./src/js/customize.js"></script>
+    <script src="./src/js/favicon.js"></script>
+    <script src="./src/js/data.js"></script>
+    <script src="./src/js/quote.js"></script>
+    <!-- Initializer -->
+    <script>
+    document.addEventListener("DOMContentLoaded", () => App.init());
+    </script>
+</body>
+
+</html>

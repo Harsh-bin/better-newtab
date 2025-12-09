@@ -1,0 +1,72 @@
+/**
+ * Manages the fetching and display of the background.
+ */
+const BackgroundManager = {
+    _currentObjectURL: null,
+
+    _cleanupURL() {
+        if (this._currentObjectURL) {
+            URL.revokeObjectURL(this._currentObjectURL);
+            this._currentObjectURL = null;
+        }
+    },
+
+    fetchRandom() {
+        const bgImage = document.getElementById("randomBackground");
+        const bgVideo = document.getElementById("randomBackgroundVideo");
+        const timestamp = new Date().getTime();
+        const mediaUrl = `http://localhost:4000/random-media?t=${timestamp}`;
+
+        bgImage.classList.remove("active");
+        bgVideo.classList.remove("active");
+
+        fetch(mediaUrl)
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const contentType = response.headers.get("content-type");
+                if (!contentType) throw new Error("No content-type header found");
+                return response.blob().then(blob => ({ blob, contentType }));
+            })
+            .then(({ blob, contentType }) => {
+                this._cleanupURL();
+                const objectURL = URL.createObjectURL(blob);
+                this._currentObjectURL = objectURL;
+
+                if (contentType.startsWith('image/')) {
+                    bgVideo.style.display = 'none';
+                    bgImage.style.display = 'block';
+                    bgImage.src = objectURL;
+                    bgImage.onload = () => bgImage.classList.add("active");
+                } else if (contentType.startsWith('video/')) {
+                    bgImage.style.display = 'none';
+                    bgVideo.style.display = 'block';
+                    bgVideo.src = objectURL;
+                    bgVideo.onloadeddata = () => {
+                        bgVideo.play().catch(e => console.error("Autoplay was prevented:", e));
+                        bgVideo.classList.add("active");
+                    };
+                } else {
+                    console.warn(`Unsupported content type: ${contentType}. Using fallback.`);
+                    this.setFallbackBackground();
+                }
+            })
+            .catch(error => {
+                console.error("Failed to load background media from local server:", error);
+                this.setFallbackBackground();
+            });
+    },
+
+    setFallbackBackground() {
+        this._cleanupURL();
+        const bgImage = document.getElementById("randomBackground");
+        const bgVideo = document.getElementById("randomBackgroundVideo");
+
+        bgVideo.style.display = 'none';
+        bgVideo.pause();
+        bgVideo.src = '';
+        
+        bgImage.style.display = 'block';
+        bgImage.src = "https://picsum.photos/1920/1080";
+        bgImage.onload = () => bgImage.classList.add("active");
+    }
+};

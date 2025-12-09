@@ -1,0 +1,228 @@
+/* --- Drag & Resize Mode --- */
+body.drag-active,
+body.resizing-grid {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+body.resizing-panel {
+  cursor: col-resize;
+  user-select: none;
+}
+
+body.resizing-panel *,
+body.resizing-grid * {
+  pointer-events: none;
+}
+
+body.drag-active .pinned-sites-section,
+body.resize-grid-active .pinned-sites-section {
+  border-radius: 0px;
+}
+
+body.drag-active .resizable-element:not(.grid-transparent),
+body.resize-grid-active .resizable-element:not(.grid-transparent),
+body.drag-active #quoteBox,
+body.resize-grid-active #quoteBox,
+body.drag-active .search-section {
+  border-color: var(--color-primary);
+}
+
+.resizable-element .resize-handle {
+  position: absolute;
+  z-index: 12;
+  display: none;
+  pointer-events: all !important;
+}
+
+body.drag-active .resizable-element .resize-handle,
+body.resize-grid-active .resizable-element .resize-handle {
+  display: block;
+}
+
+.resizable-element .resize-handle::after {
+  content: "";
+  position: absolute;
+  opacity: 0.9;
+}
+
+.resizable-element .resize-handle[data-direction="n"],
+.resizable-element .resize-handle[data-direction="s"] {
+  width: 100%;
+  height: 10px;
+  left: 0;
+}
+
+.resizable-element .resize-handle[data-direction="e"],
+.resizable-element .resize-handle[data-direction="w"] {
+  width: 10px;
+  height: 100%;
+  top: 0;
+}
+
+.resizable-element .resize-handle[data-direction="n"] {
+  top: -1px;
+  cursor: n-resize;
+}
+.resizable-element .resize-handle[data-direction="s"] {
+  bottom: -1px;
+  cursor: s-resize;
+}
+.resizable-element .resize-handle[data-direction="e"] {
+  right: -1px;
+  cursor: e-resize;
+}
+.resizable-element .resize-handle[data-direction="w"] {
+  left: -1px;
+  cursor: w-resize;
+}
+
+.resizable-element .resize-handle[data-direction="n"]::after {
+  width: 25px;
+  height: 2px;
+  background: var(--color-text-secondary);
+  top: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.resizable-element .resize-handle[data-direction="s"]::after {
+  width: 25px;
+  height: 2px;
+  background: var(--color-text-secondary);
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.resizable-element .resize-handle[data-direction="e"]::after {
+  width: 2px;
+  height: 25px;
+  background: var(--color-text-secondary);
+  right: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.resizable-element .resize-handle[data-direction="w"]::after {
+  width: 2px;
+  height: 25px;
+  background: var(--color-text-secondary);
+  left: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.resizable-element .resize-handle[data-direction="nw"],
+.resizable-element .resize-handle[data-direction="ne"],
+.resizable-element .resize-handle[data-direction="sw"],
+.resizable-element .resize-handle[data-direction="se"] {
+  width: 20px;
+  height: 20px;
+}
+
+.resizable-element .resize-handle[data-direction="nw"] {
+  top: -1px;
+  left: -1px;
+  cursor: nwse-resize;
+}
+.resizable-element .resize-handle[data-direction="ne"] {
+  top: -1px;
+  right: -1px;
+  cursor: nesw-resize;
+}
+.resizable-element .resize-handle[data-direction="sw"] {
+  bottom: -1px;
+  left: -1px;
+  cursor: nesw-resize;
+}
+.resizable-element .resize-handle[data-direction="se"] {
+  bottom: -1px;
+  right: -1px;
+  cursor: nwse-resize;
+}
+
+.resizable-element .resize-handle[data-direction="se"]::after {
+  width: 10px;
+  height: 10px;
+  border-bottom: 2px solid var(--color-text-secondary);
+  border-right: 2px solid var(--color-text-secondary);
+  bottom: 2px;
+  right: 2px;
+}
+.resizable-element .resize-handle[data-direction="sw"]::after {
+  width: 10px;
+  height: 10px;
+  border-bottom: 2px solid var(--color-text-secondary);
+  border-left: 2px solid var(--color-text-secondary);
+  bottom: 2px;
+  left: 2px;
+}
+.resizable-element .resize-handle[data-direction="ne"]::after {
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid var(--color-text-secondary);
+  border-right: 2px solid var(--color-text-secondary);
+  top: 2px;
+  right: 2px;
+}
+.resizable-element .resize-handle[data-direction="nw"]::after {
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid var(--color-text-secondary);
+  border-left: 2px solid var(--color-text-secondary);
+  top: 2px;
+  left: 2px;
+}
+
+.drag-mode-controls {
+  position: fixed;
+  bottom: var(--spacing-xl);
+  right: var(--spacing-xl);
+  display: flex;
+  gap: var(--spacing-md);
+  z-index: 1000;
+  pointer-events: auto;
+  transition: right var(--transition-medium);
+}
+
+body.side-panel-active .drag-mode-controls {
+  right: calc(var(--side-panel-width) + var(--spacing-xl));
+}
+
+.drag-mode-button {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 5px 15px var(--color-shadow);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.drag-mode-button:hover {
+  transform: scale(1.1);
+}
+
+.drag-mode-button.button-cancel {
+  background: var(--color-secondary);
+  color: var(--color-on-secondary);
+}
+
+.drag-mode-button.button-cancel:hover {
+  background: color-mix(in srgb, var(--color-secondary) 80%, black);
+}
+
+.drag-mode-button.button-confirm {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.drag-mode-button.button-confirm:hover {
+  background: color-mix(in srgb, var(--color-primary) 80%, black);
+}
